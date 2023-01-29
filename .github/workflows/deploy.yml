@@ -1,0 +1,30 @@
+name: Deploy react app
+on:
+  push:
+    branches:
+      -main
+
+jobs:
+  deploy:
+    name: deploy app
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ["12.x"]
+    
+    steps:
+      - uses: action/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{matrix.node-version}}
+      - name: install packages
+        run: npm install
+      - name: registry github user
+        run: /
+          git config --global user.email <email>
+          git config --global user.name <name>
+
+      - name: deploy the app
+        run: npm run deploy
+        env:
+            GH_PAGES_RICK_API: ${{ secrets.GH_PAGES_RICK_API}} 
